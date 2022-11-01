@@ -1,7 +1,18 @@
 version: "3.9"
 services:
+  shorty:
+    container_name: shorty-app
+    build: ./
+    command: ./shorty
+    ports:
+      - "8090:8090"
+    depends_on:
+      - redis
+    env_file:
+      - .env
+
   redis:
-    container_name: redis
+    container_name: shorty-redis
     image: redis
     ports:
       - "6379:6379"

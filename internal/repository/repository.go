@@ -5,6 +5,8 @@ import (
 	"shorty/pkg/db/redis"
 )
 
+//go:generate mockgen -source=repository.go -destination=mocks/mock.go
+
 type Link interface {
 	Save(link dto.Link) (dto.Link, error)
 	FindByShortUrl(shortURL string) (dto.Link, error)
