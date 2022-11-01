@@ -2,7 +2,11 @@ name: Tests
 
 on:
   push:
-    branches-ignore:
+    branches:
+      - master
+      - main
+  pull_request:
+    branches:
       - master
       - main
 

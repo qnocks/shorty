@@ -5,7 +5,7 @@ services:
     image: tcardonne/github-runner:latest
     environment:
       RUNNER_NAME: "github-actions-runner"
-      RUNNER_REPOSITORY_URL: "https://github.com/qnocks/shorty"
+      RUNNER_REPOSITORY_URL: "${REPOSITORY_URL}"
       RUNNER_TOKEN: "${TOKEN}"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
