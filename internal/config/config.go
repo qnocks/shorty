@@ -3,7 +3,7 @@ package config
 import (
 	"github.com/ilyakaznacheev/cleanenv"
 	"github.com/joho/godotenv"
-	"log"
+	"shorty/pkg/logger"
 	"sync"
 )
 
@@ -32,12 +32,14 @@ func GetConfig() *Config {
 		instance = &Config{}
 
 		if err := godotenv.Load(".env"); err != nil {
-			log.Fatalf("error during loading enviroment variables: %s\n", err.Error())
+			logger.Errorf("error during loading enviroment variables: %s\n", err.Error())
+			return
 		}
 
 		if err := cleanenv.ReadEnv(instance); err != nil {
 			help, _ := cleanenv.GetDescription(instance, nil)
-			log.Fatalf("error during mapping enviroment variables: %s\n", help)
+			logger.Errorf("error during mapping enviroment variables: %s\n", help)
+			return
 		}
 	})
 

@@ -2,7 +2,10 @@ package http
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/swaggo/files"
+	"github.com/swaggo/gin-swagger"
 	"net/http"
+	_ "shorty/docs"
 	"shorty/internal/service"
 )
 
@@ -20,9 +23,13 @@ func (h *Handler) Init() *gin.Engine {
 
 	h.initAPI(router)
 	h.healthcheck(router)
-	// TODO: swagger init
+	h.initSwagger(router)
 
 	return router
+}
+
+func (h *Handler) initSwagger(router *gin.Engine) {
+	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 }
 
 func (h *Handler) initAPI(router *gin.Engine) {

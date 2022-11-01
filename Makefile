@@ -5,3 +5,9 @@ build:
 
 run: build
 	./.bin/app
+
+lint:
+	golangci-lint run
+
+swagger:
+	swag init -g cmd/app/main.go

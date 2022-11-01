@@ -5,6 +5,8 @@ import (
 	"shorty/internal/repository"
 )
 
+//go:generate mockgen -source=service.go -destination=mocks/mock.go
+
 type Link interface {
 	CreateShortLink(originURL string) (dto.Link, error)
 	GetByShortURL(shortURL string) (dto.Link, error)

@@ -1,0 +1,118 @@
+definitions:
+  http.createLinkInput:
+    properties:
+      originUrl:
+        type: string
+    required:
+    - originUrl
+    type: object
+  http.errorResponse:
+    properties:
+      error:
+        type: string
+      message:
+        type: string
+      status:
+        type: integer
+      timestamp:
+        type: integer
+    type: object
+  http.linkResponse:
+    properties:
+      originUrl:
+        type: string
+      redirectCount:
+        type: integer
+      shortUrl:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /{url}:
+    get:
+      consumes:
+      - application/json
+      description: Redirect to original url by the short one
+      parameters:
+      - description: url to redirect
+        in: path
+        name: url
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "307":
+          description: Temporary Redirect
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/http.errorResponse'
+      summary: Redirect
+      tags:
+      - redirect
+  /api/links/:
+    post:
+      consumes:
+      - application/json
+      description: Generate short url for the given one
+      parameters:
+      - description: origin url to short
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/http.createLinkInput'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/http.linkResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/http.errorResponse'
+      summary: Create short link
+      tags:
+      - links
+  /api/links/{url}:
+    get:
+      consumes:
+      - application/json
+      description: Get short url and redirect counts for the url
+      parameters:
+      - description: url
+        in: path
+        name: url
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/http.linkResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/http.errorResponse'
+      summary: Get link info
+      tags:
+      - links
+swagger: "2.0"

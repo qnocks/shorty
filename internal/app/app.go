@@ -2,7 +2,6 @@ package app
 
 import (
 	"context"
-	"log"
 	"os"
 	"os/signal"
 	"shorty/internal/config"
@@ -11,11 +10,19 @@ import (
 	"shorty/internal/transport/http"
 	"shorty/pkg/db/redis"
 	"shorty/pkg/httpserver"
+	"shorty/pkg/logger"
 	"syscall"
 	"time"
 )
 
 const timeout = 5 * time.Second
+
+// @title Shorty API
+// @version 1.0
+// @description API Server for url Shorty app
+
+// @host localhost:8000
+// @BasePath /
 
 func Run() {
 	cfg := config.GetConfig()
@@ -32,7 +39,8 @@ func Run() {
 
 	go func() {
 		if err := srv.Run(); err != nil {
-			log.Fatalf("error during running http server: %s\n", err.Error())
+			logger.Errorf("error during running http server: %s\n", err.Error())
+			return
 		}
 	}()
 
@@ -41,7 +49,7 @@ func Run() {
 }
 
 func graceful() {
-	quit := make(chan os.Signal)
+	quit := make(chan os.Signal, 1)
 	signal.Notify(quit, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
 	<-quit
 }
@@ -51,10 +59,12 @@ func shutdown(srv *httpserver.Server, redis *redis.Client) {
 	defer shutdownCancel()
 
 	if err := redis.Redis.Close(); err != nil {
-		log.Fatalf("failed to disconnect redis client: %s\n", err.Error())
+		logger.Errorf("failed to disconnect redis client: %s\n", err.Error())
+		return
 	}
 
 	if err := srv.Shutdown(ctx); err != nil {
-		log.Fatalf("failed to stop server: %s\n", err.Error())
+		logger.Errorf("failed to stop server: %s\n", err.Error())
+		return
 	}
 }
