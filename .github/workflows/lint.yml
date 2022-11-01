@@ -1,4 +1,4 @@
-name: tests
+name: lint
 
 on:
   push:
@@ -22,8 +22,8 @@ jobs:
         with:
           go-version: 1.18
 
-      - name: Build
-        run: make build
+      - name: Install golangci
+        run: go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.50.1
 
       - name: Lint
         run: make lint
