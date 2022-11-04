@@ -21,37 +21,50 @@ monitoring the number of hits from your URL with the click counter
 - [golangci-lint](https://github.com/golangci/golangci-lint) (<i>optional</i>, used to run code checks)
 - [swag](https://github.com/swaggo/swag) (<i>optional</i>, used to re-generate swagger documentation)
 
-- ...
+### Run locally
 
 Create `.env` file in root directory and add following values:
 ```
 PORT=
-REDIS_HOST=<same_as_redis_container_name>
+REDIS_HOST=
 REDIS_PORT=
 REDIS_PASS=
 ```
 
-Use `make run` to build & run project, `make lint` to check code with linter.
+Use `docker-compose up` to spin up project
+
+To see provided endpoints go to `https://localhost:<your_port>/swagger/index.html`
 
 ## TODO
 
 - [X] Main logic: `/create_link`, `/redirect_by_short_link`, `/get_link_info`
 - [X] config
 - [X] error handling
-- [ ] Tests: repository - redismock v9 not supported yet, config
+- [ ] Tests: repository (redismock v9 not supported yet), config, integration tests
 - [X] logging
 - [X] linter
-- [X] Open API
+- [X] Swagger
 - [X] Dockerize the app
-- [ ] Stressful tests
 - [X] Makefile
-- [ ] GitHub CI/CD
-- [ ] Custom logging
-- [ ] auth?
+- [X] GitHub CI/CD
+- [ ] README: local run steps, badges
+- [X] LICENSE
+- [ ] auth
+- [ ] caching
+- [ ] url validation
+- [ ] non-http interaction?
+- [ ] Custom logging?
+- [ ] Stressful tests?
+- [ ] telegram bot? (assigned to [@VSokolov2](https://github.com/VSokolov2))
 - [ ] cli client?
-- [ ] README
-- [ ] LICENSE
+- [ ] frontend?
+
+## Contributing
+
+Contributions are very welcome!
+
+Feel free to open an issue or create a pull request with your additions.
 
 ## License
 
-> Coming soon
+Distributed under the MIT License. See [LICENSE](LICENSE) for more information.

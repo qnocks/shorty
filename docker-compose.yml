@@ -5,17 +5,17 @@ services:
     build: ./
     command: ./shorty
     ports:
-      - "8090:8090"
+      - "${PORT}:${PORT}"
     depends_on:
       - redis
     env_file:
       - .env
 
   redis:
-    container_name: shorty-redis
+    container_name: ${REDIS_HOST}
     image: redis
     ports:
-      - "6379:6379"
+      - "${REDIS_PORT}:${REDIS_PORT}"
     volumes:
       - redis:/data
 

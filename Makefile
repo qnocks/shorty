@@ -1,4 +1,4 @@
-.PHONY:
+.SILENT:
 
 build:
 	go build -o ./.bin/app cmd/app/main.go
@@ -7,7 +7,7 @@ run: build
 	./.bin/app
 
 test:
-	go test ./cmd/... ./internal/... -race -coverprofile=cover.out -v ./...
+	go test ./cmd/... ./internal/... -race -coverprofile=cover.out ./...
 	make test.coverage
 
 test.coverage:
